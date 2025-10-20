@@ -1,20 +1,12 @@
 import time #for delay
 import os   #for clear screen
+
 #for playing music
 from os import environ
 environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "1"
+
 import pygame, sys, time
-pygame.mixer.init()
-pygame.mixer.music.load(r"C:\Users\vishnu m\OneDrive\Desktop\song.mp3\song1.mp3.mp3")
-pygame.mixer.music.play(-1)
 
-# for demo purpose clear screen function
-
-#taking input
-x=input("enter your name :")
-y=input("enter your crush name :")
-a=x
-b=y
 def print_lyrics():
     # List of song lyrics
     lyrics = [
@@ -76,16 +68,46 @@ def print_lyrics():
     for line in lyrics:
         print(line)
         time.sleep(2)#2 seconds delay between lines
-# Run the function
-p=True
-for i in a:
-    if i in b:
-        print_lyrics()
-        print("perfect match!!!❤")
-        p=False
-        break
-if p:
+
+
+def initAudioPlayer(filename=r"C:\Users\vishnu m\OneDrive\Desktop\song.mp3\song1.mp3.mp3"):
+    pygame.mixer.init()
+    pygame.mixer.music.load(filename)
+
+
+def checkForMatch(name1, name2):
+    for char in name1:  
+        if char in name2:
+            return True
+    return False
+
+def playSong():
+    pygame.mixer.music.play(-1)
+
+def showLyrics():
+    print_lyrics()
+
+def printErrorMessage():
     print("better luck next time " \
     " not a perfect match!!!")
-input("enter to exit)")
-pygame.mixer.music.stop()
+
+def cleanup():
+    input("enter to exit)")
+    pygame.mixer.music.stop()
+
+def printMessage():
+    os.system('cls' if os.name == 'nt' else 'clear')
+    print("Perfect Match!!!")
+    print("Playing your song...")
+
+if __name__ == "__main__":
+    initAudioPlayer()
+    name1 = input("Enter your name: ")
+    name2 = input("Enter your crush's name: ")
+    if checkForMatch(name1, name2):
+        playSong()
+        printMessage()
+        showLyrics()
+    else:
+        printErrorMessage()
+    cleanup()
