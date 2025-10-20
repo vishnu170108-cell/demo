@@ -8,6 +8,8 @@ pygame.mixer.init()
 pygame.mixer.music.load(r"C:\Users\vishnu m\OneDrive\Desktop\song.mp3\song1.mp3.mp3")
 pygame.mixer.music.play(-1)
 
+# for demo purpose clear screen function
+
 #taking input
 x=input("enter your name :")
 y=input("enter your crush name :")
