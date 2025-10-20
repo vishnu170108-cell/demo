@@ -1,0 +1,51 @@
+"""
+bg_music_mixer_only.py
+Plays background music using pygame.mixer without opening a pygame window.
+"""
+
+import pygame
+import os
+import time
+
+MUSIC_FILE = "song.mp3"  # change to your file (mp3/ogg)
+
+def init_mixer(frequency=44100, size=-16, channels=2, buffer=512):
+    # pre-init recommended for lower latency and control
+    pygame.mixer.pre_init(frequency, size, channels, buffer)
+    pygame.init()  # init pygame modules (not opening any window)
+    # optionally check mixer init
+    if not pygame.mixer.get_init():
+        raise RuntimeError("pygame mixer failed to initialize")
+
+def play_background(music_path, loops=-1, volume=0.6, fade_ms=1500):
+    """Play music_path in background. loops=-1 means infinite loop."""
+    if not os.path.exists(music_path):
+        raise FileNotFoundError(f"Music file not found: {music_path}")
+    pygame.mixer.music.load(music_path)
+    pygame.mixer.music.set_volume(volume)  # 0.0 .. 1.0
+    # play with fade-in (fade_ms) and looping
+    pygame.mixer.music.play(loops=loops, fade_ms=fade_ms)
+
+def stop_background(fadeout_ms=1000):
+    pygame.mixer.music.fadeout(fadeout_ms)
+
+def main():
+    init_mixer()
+    try:
+        play_background(MUSIC_FILE, loops=-1, volume=0.5, fade_ms=1000)
+        print("Playing background music. Press Ctrl+C to stop.")
+        # Keep the script alive while music plays.
+        # Replace this with your app's main loop (Tkinter mainloop, etc.)
+        while True:
+            time.sleep(0.5)
+    except KeyboardInterrupt:
+        print("Stopping music...")
+    finally:
+        stop_background(500)
+        # Allow fadeout to complete
+        time.sleep(0.6)
+        pygame.mixer.quit()
+
+if __name__ == "__main__":
+    main()
+    
