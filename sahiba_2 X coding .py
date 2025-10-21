@@ -79,7 +79,10 @@ def checkForMatch(name1, name2):
     for char in name1:  
         if char in name2:
             return True
-    return False
+        else:
+            if dob_1<=dob_2:
+                return True          
+            return False
 
 def playSong():
     pygame.mixer.music.play(-1)
@@ -92,7 +95,7 @@ def printErrorMessage():
     " not a perfect match!!!")
 
 def cleanup():
-    input("enter to exit)")
+    input("enter to exit.....")
     pygame.mixer.music.stop()
 
 def printMessage():
@@ -103,7 +106,9 @@ def printMessage():
 if __name__ == "__main__":
     initAudioPlayer()
     name1 = input("Enter your name: ")
+    dob_1= [input("Enter your date of birth:" )]
     name2 = input("Enter your crush's name: ")
+    dob_2= [input("Enter your crush's date of birth:" )]
     if checkForMatch(name1, name2):
         playSong()
         printMessage()
