@@ -1,5 +1,27 @@
 import time #for delay
 import os   #for clear screen
+import tkinter as tk
+from PIL import Image, ImageTk, ImageSequence
+
+def play_gif():
+    global img
+    for frame in ImageSequence.Iterator(im):
+        img = ImageTk.PhotoImage(frame)
+        lbl.config(image=img)
+        lbl.update()
+        lbl.after(100)  # control speed
+
+root = tk.Tk()
+root.title("GIF Animation enter " \
+"close the window to proceed to music part")
+
+im = Image.open(r"C:\Users\vishnu m\OneDrive\Desktop\gif_.gif")  # path to your gif
+lbl = tk.Label(root)
+lbl.pack()
+
+play_gif()
+root.mainloop()
+
 
 #for playing music
 from os import environ
@@ -70,9 +92,9 @@ def print_lyrics():
         time.sleep(2)#2 seconds delay between lines
 
 
-def initAudioPlayer(filename=r"C:\Users\vishnu m\OneDrive\Desktop\song.mp3\song1.mp3.mp3"):
+def initAudioPlayer(file_name=r"C:\Users\vishnu m\OneDrive\Desktop\song.mp3\song1.mp3.mp3"):
     pygame.mixer.init()
-    pygame.mixer.music.load(filename)
+    pygame.mixer.music.load(file_name)
 
 
 def checkForMatch(name1, name2):
@@ -86,9 +108,11 @@ def checkForMatch(name1, name2):
 
 def playSong():
     pygame.mixer.music.play(-1)
+    time.sleep(2)
 
 def showLyrics():
     print_lyrics()
+   
 
 def printErrorMessage():
     print("better luck next time " \
@@ -113,6 +137,8 @@ if __name__ == "__main__":
         playSong()
         printMessage()
         showLyrics()
+        play_gif()
+
     else:
         printErrorMessage()
     cleanup()
